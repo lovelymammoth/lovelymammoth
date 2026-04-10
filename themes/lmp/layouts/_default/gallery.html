@@ -1,0 +1,132 @@
+{{ define "main" }}
+<div class="gallery-page-header">
+  {{ if eq .Section "experiments" }}
+  <a href="/#experiments" class="back-link">← Experiments</a>
+  {{ else }}
+  <a href="/" class="back-link">← Work</a>
+  {{ end }}
+  <span class="gallery-page-title">{{ .Title }}</span>
+</div>
+
+{{/* .RawContent is already the body without frontmatter */}}
+{{ $body := .RawContent }}
+
+{{/* Match ![[image]] and ![[image|https://url]] wikilinks */}}
+{{ $imgRE := `!\[\[[^|\]\r\n]+\.(?:jpg|jpeg|png|gif|webp|JPG|JPEG|PNG|GIF|WEBP)(?:\|[^\]]*)?\]\]` }}
+{{ $images := findRE $imgRE $body }}
+
+{{ if $images }}
+<div class="gallery-page-grid">
+  {{ range $images }}
+  {{ $filename := . | replaceRE `!\[\[([^|\]]+)\|?[^\]]*\]\]` "$1" }}
+  {{ $url     := . | replaceRE `!\[\[[^\]]+\|(https?://[^\]]+)\]\]` "$1" }}
+  {{ if hasPrefix $url "http" }}
+  <a href="{{ $url }}" target="_blank" rel="noopener noreferrer" class="gallery-page-cell gallery-page-cell--linked">
+    <img src="/images/{{ $filename }}" alt="" loading="lazy" draggable="false">
+  </a>
+  {{ else }}
+  <div class="gallery-page-cell">
+    <img src="/images/{{ $filename }}" alt="" loading="lazy" draggable="false">
+  </div>
+  {{ end }}
+  {{ end }}
+</div>
+{{ end }}
+
+{{/* Render anything else in the body (iframes, text) as embeds */}}
+{{ $remaining := $body | replaceRE $imgRE "" | strings.TrimSpace }}
+{{ if $remaining }}
+<div class="gallery-embeds">{{ $remaining | markdownify | safeHTML }}</div>
+{{ end }}
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
+  <button class="lightbox-close" id="lightbox-close" aria-label="Close">&#x2715;</button>
+  <button class="lightbox-prev"  id="lightbox-prev"  aria-label="Previous">&#x2039;</button>
+  <div class="lightbox-img-wrap">
+    <img class="lightbox-img" id="lightbox-img" src="" alt="">
+  </div>
+  <button class="lightbox-next"  id="lightbox-next"  aria-label="Next">&#x203A;</button>
+  <div class="lightbox-counter"  id="lightbox-counter"></div>
+</div>
+
+<script>
+/* ── Masonry: calculate grid-row-end span per cell ── */
+(function () {
+  var ROW_UNIT = 10, GAP = 12;
+  var grid = document.querySelector('.gallery-page-grid');
+  if (!grid) return;
+
+  function spanCell(cell) {
+    var img = cell.querySelector('img');
+    if (!img) return;
+    var w = img.offsetWidth;
+    var h = img.naturalWidth > 0
+      ? Math.round((w / img.naturalWidth) * img.naturalHeight)
+      : cell.offsetHeight;
+    cell.style.gridRowEnd = 'span ' + Math.ceil((h + GAP) / (ROW_UNIT + GAP));
+  }
+
+  var cells = Array.from(grid.querySelectorAll('.gallery-page-cell'));
+
+  cells.forEach(function (cell) {
+    var img = cell.querySelector('img');
+    if (!img) return;
+    if (img.complete && img.naturalHeight > 0) {
+      spanCell(cell);
+    } else {
+      img.addEventListener('load', function () { spanCell(cell); });
+    }
+  });
+
+  window.addEventListener('resize', function () { cells.forEach(spanCell); });
+})();
+
+/* ── Lightbox (excludes linked cells) ── */
+(function () {
+  var cells   = Array.from(document.querySelectorAll('.gallery-page-cell:not(.gallery-page-cell--linked)'));
+  var imgs    = cells.map(function (c) { return c.querySelector('img'); });
+  var lb      = document.getElementById('lightbox');
+  var lbImg   = document.getElementById('lightbox-img');
+  var counter = document.getElementById('lightbox-counter');
+  var current = 0;
+
+  if (!cells.length) return;
+
+  function show(i) {
+    current = (i + cells.length) % cells.length;
+    lbImg.style.opacity = '0';
+    lbImg.src = imgs[current].src;
+    lbImg.onload = function () { lbImg.style.opacity = '1'; };
+    counter.textContent = (current + 1) + ' / ' + cells.length;
+    lb.classList.add('lightbox--open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    lb.classList.remove('lightbox--open');
+    document.body.style.overflow = '';
+  }
+
+  cells.forEach(function (cell, i) {
+    cell.addEventListener('click', function () { show(i); });
+  });
+
+  lbImg.setAttribute('draggable', 'false');
+  lbImg.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+
+  document.getElementById('lightbox-close').addEventListener('click', close);
+  document.getElementById('lightbox-backdrop').addEventListener('click', close);
+  document.getElementById('lightbox-prev').addEventListener('click', function () { show(current - 1); });
+  document.getElementById('lightbox-next').addEventListener('click', function () { show(current + 1); });
+
+  document.addEventListener('keydown', function (e) {
+    if (!lb.classList.contains('lightbox--open')) return;
+    if (e.key === 'Escape')      close();
+    if (e.key === 'ArrowLeft')   show(current - 1);
+    if (e.key === 'ArrowRight')  show(current + 1);
+  });
+})();
+</script>
+{{ end }}

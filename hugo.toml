@@ -1,0 +1,11 @@
+baseURL = "https://lovelymammoth.com/"
+languageCode = "en-gb"
+title = "Lovely Mammoth"
+theme = "lmp"
+enableRobotsTXT = true
+
+[params]
+  description = "Michael Tzetzias — CG generalist, creative technologist, and PhD researcher."
+
+[markup.goldmark.renderer]
+  unsafe = true

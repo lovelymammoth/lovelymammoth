@@ -1,0 +1,14 @@
+<a href="{{ .RelPermalink }}" class="entry entry-strip">
+  <div class="entry-num"></div>
+  <div class="entry-covers">
+    {{ if .Params.cover }}
+      {{ range .Params.cover }}
+        <img src="/{{ . }}" alt="">
+      {{ end }}
+    {{ else if .Params.image }}
+      <img src="/{{ .Params.image }}" alt="{{ $.Title }}">
+    {{ else }}
+      <div class="entry-cover-placeholder"></div>
+    {{ end }}
+  </div>
+</a>

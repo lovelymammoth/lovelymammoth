@@ -1,0 +1,21 @@
+<header class="hero">
+  <div class="hero-index">
+    <img src="/images/lmp_logo.png"       alt="Lovely Mammoth" class="hero-logo-mark logo-light">
+    <img src="/images/lmp_logo_color.png" alt="Lovely Mammoth" class="hero-logo-mark logo-dark">
+  </div>
+  <div class="hero-main">
+    <div class="hero-eyebrow">{{ .Params.location }} &nbsp;·&nbsp; Creative Technology &nbsp;·&nbsp; est. {{ .Params.established }}</div>
+    <h1 class="hero-title">
+      CG Art,<br>
+      <strong>AI Pipelines</strong><br>
+      <span class="muted">&amp; Research.</span>
+    </h1>
+  </div>
+  <div class="hero-sidebar">
+    <p class="hero-desc">{{ .Params.description }}</p>
+    <div class="hero-tags">
+      {{ range .Params.disciplines }}<div class="hero-tag">{{ . }}</div>
+      {{ end }}
+    </div>
+  </div>
+</header>

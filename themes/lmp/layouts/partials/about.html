@@ -1,0 +1,27 @@
+<section class="about" id="about">
+  <div class="about-index"><span>About</span></div>
+  <div class="about-body">
+    <div>
+      <h2 class="about-title">Michael Tzetzias,<br>aka Lovely Mammoth.</h2>
+      <p class="about-bio">{{ .Params.about }}</p>
+    </div>
+    <div class="footer-copy" style="margin-top:32px;">© Lovely Mammoth Pictures Single Member P.C.</div>
+  </div>
+  <div class="about-contact">
+    <div>
+      <div class="contact-label">Get in touch</div>
+      <a href="mailto:{{ .Params.email }}" class="contact-email">{{ .Params.email }}</a>
+      <div class="contact-links">
+        {{ range .Params.links }}
+        <a href="{{ .url }}" class="contact-link" target="_blank" rel="noopener noreferrer">{{ .label }}</a>
+        {{ end }}
+        <a href="https://drive.google.com/file/d/1BjoKj2VQaG0Mbb4ISrQF3G3OrcyGa2eE/view?usp=sharing" class="contact-link" target="_blank" rel="noopener noreferrer">Resume / CV</a>
+      </div>
+    </div>
+    <div class="footer-loc">{{ .Params.location }} &nbsp;·&nbsp; lovelymammoth.com</div>
+  </div>
+  <div class="about-footer">
+    <span class="footer-copy">© {{ now.Year }} Lovely Mammoth Pictures</span>
+    <span class="footer-loc">Built with care, no templates.</span>
+  </div>
+</section>

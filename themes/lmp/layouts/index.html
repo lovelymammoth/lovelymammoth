@@ -1,0 +1,48 @@
+{{ define "main" }}
+{{- partial "hero.html" . }}
+
+<!-- WORK SECTION -->
+{{ $work := where .Site.RegularPages "Section" "work" }}
+{{ $work = sort $work "Params.weight" }}
+
+{{ $categories := slice "AI" "Characters & Creatures" "VR Sculpture" "Installations" "Digital Sculpting"}}
+{{ range $categories }}
+{{ $cat := . }}
+{{ $entries := where $work "Params.category" $cat }}
+{{ if $entries }}
+<div class="section-header" id="{{ $cat | urlize }}">
+  <div class="section-header-label">Work</div>
+  <div class="section-header-title">{{ $cat }}</div>
+</div>
+{{ range $entries }}
+{{- partial "entry-strip.html" . }}
+{{ end }}
+{{ end }}
+{{ end }}
+
+<!-- RESEARCH SECTION -->
+{{ $research := where .Site.RegularPages "Section" "research" }}
+{{ $research = sort $research "Params.weight" }}
+<div class="section-header section-header--break" id="research">
+  <div class="section-header-label">Research</div>
+  <div class="section-header-title">PhD — Player-avatar relationships in social VR</div>
+</div>
+{{ range $research }}
+{{- partial "entry-text.html" . }}
+{{ end }}
+
+<!-- EXPERIMENTS SECTION -->
+{{ $experiments := where .Site.RegularPages "Section" "experiments" }}
+{{ $experiments = sort $experiments "Params.weight" }}
+{{ if $experiments }}
+<div class="section-header section-header--break" id="experiments">
+  <div class="section-header-label">Experiments</div>
+  <div class="section-header-title">Works in progress — experiments &amp; tests</div>
+</div>
+{{ range $experiments }}
+{{- partial "entry-strip.html" . }}
+{{ end }}
+{{ end }}
+
+{{- partial "about.html" . }}
+{{ end }}

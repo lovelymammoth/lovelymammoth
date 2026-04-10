@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} — {{ .Site.Title }}{{ end }}</title>
+  <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <!-- Restore theme before paint to avoid flash -->
+  <script>
+    (function() {
+      var t = localStorage.getItem('theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+</head>
+<body>
+  <div class="site-wrap">
+    {{- partial "nav.html" . }}
+    {{- block "main" . }}{{- end }}
+  </div>
+<script>
+  (function() {
+    // Burger menu
+    var burger = document.getElementById('nav-burger');
+    var nav    = document.getElementById('site-nav');
+    if (burger) {
+      burger.addEventListener('click', function() {
+        var open = nav.classList.toggle('nav-open');
+        burger.setAttribute('aria-expanded', open);
+      });
+      document.querySelectorAll('#nav-links a').forEach(function(a) {
+        a.addEventListener('click', function() {
+          nav.classList.remove('nav-open');
+          burger.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+
+    // Dark mode toggle
+    var switcher = document.getElementById('appearance-switcher');
+    if (switcher) {
+      switcher.addEventListener('click', function() {
+        var html = document.documentElement;
+        var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+      });
+    }
+  })();
+</script>
+</body>
+</html>

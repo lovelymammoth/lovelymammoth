@@ -1,0 +1,18 @@
+<a href="{{ .RelPermalink }}" class="entry entry-split">
+  <div class="entry-num">{{ printf "%02d" .Params.weight }}</div>
+  <div class="entry-image-col">
+    {{ if .Params.image }}<img src="/{{ .Params.image }}" alt="{{ .Title }}">
+    {{ else }}<div class="entry-image-placeholder"></div>{{ end }}
+  </div>
+  <div class="entry-meta-col">
+    <div>
+      <div class="entry-title">{{ .Title }}</div>
+      {{ with .Params.subtitle }}<div class="entry-note">{{ . }}</div>{{ end }}
+      {{ with .Content }}<div class="entry-note">{{ . }}</div>{{ end }}
+      <div class="entry-year">{{ .Params.year }}</div>
+    </div>
+    <div class="tag-row">
+      {{ range .Params.tags }}<span class="tag">{{ . }}</span>{{ end }}
+    </div>
+  </div>
+</a>

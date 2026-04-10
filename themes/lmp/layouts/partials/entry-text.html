@@ -1,0 +1,16 @@
+<div class="entry entry-text">
+  <div class="entry-num">{{ .Params.entrynum | default "R1" }}</div>
+  <div class="entry-body">
+    <div class="entry-title" style="margin-bottom:12px;">{{ .Title }}</div>
+    <div class="entry-note">{{ .Content }}</div>
+    <div class="tag-row" style="margin-top:16px;">
+      {{ range .Params.tags }}<span class="tag">{{ . }}</span>{{ end }}
+    </div>
+  </div>
+  <div class="entry-aside">
+    <div>
+      <div class="contact-label" style="margin-bottom:4px;">Status</div>
+      <div style="font-size:12px; color:var(--ink-mid);">{{ .Params.status }}</div>
+    </div>
+  </div>
+</div>
