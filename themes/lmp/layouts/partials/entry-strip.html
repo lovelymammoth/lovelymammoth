@@ -3,10 +3,10 @@
   <div class="entry-covers">
     {{ if .Params.cover }}
       {{ range .Params.cover }}
-        <img src="/{{ . }}" alt="">
+        <img src="{{ . | relURL }}" alt="">
       {{ end }}
     {{ else if .Params.image }}
-      <img src="/{{ .Params.image }}" alt="{{ $.Title }}">
+      <img src="{{ .Params.image | relURL }}" alt="{{ $.Title }}">
     {{ else }}
       <div class="entry-cover-placeholder"></div>
     {{ end }}

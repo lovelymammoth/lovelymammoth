@@ -1,7 +1,7 @@
 {{ define "main" }}
 <div class="project-header">
   <div class="project-header-inner">
-    <a href="/" class="back-link">← Work</a>
+    <a href="{{ "/" | relURL }}" class="back-link">← Work</a>
     <div class="project-meta-top">
       <span class="entry-num-inline">{{ printf "%02d" .Params.weight }}</span>
     </div>
@@ -22,12 +22,12 @@
     {{ if .Params.gallery }}
       {{ range .Params.gallery }}
       <div class="gallery-item">
-        <img src="/{{ . }}" alt="{{ $.Title }}">
+        <img src="{{ . | relURL }}" alt="{{ $.Title }}">
       </div>
       {{ end }}
     {{ else if .Params.image }}
       <div class="gallery-item">
-        <img src="/{{ .Params.image }}" alt="{{ .Title }}">
+        <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}">
       </div>
     {{ end }}
   </div>

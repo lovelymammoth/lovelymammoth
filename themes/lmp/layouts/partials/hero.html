@@ -1,7 +1,7 @@
 <header class="hero">
   <div class="hero-index">
-    <img src="/images/lmp_logo.png"       alt="Lovely Mammoth" class="hero-logo-mark logo-light">
-    <img src="/images/lmp_logo_color.png" alt="Lovely Mammoth" class="hero-logo-mark logo-dark">
+    <img src="{{ "images/lmp_logo.png" | relURL }}"       alt="Lovely Mammoth" class="hero-logo-mark logo-light">
+    <img src="{{ "images/lmp_logo_color.png" | relURL }}" alt="Lovely Mammoth" class="hero-logo-mark logo-dark">
   </div>
   <div class="hero-main">
     <div class="hero-eyebrow">{{ .Params.location }} &nbsp;·&nbsp; Creative Technology &nbsp;·&nbsp; est. {{ .Params.established }}</div>
