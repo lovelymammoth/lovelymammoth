@@ -5,24 +5,24 @@ layout: gallery
 weight: 2
 cover:
   - images/vnimal-03.jpg
-  - images/vnimal-02.png
-  - images/vnimal-01.png
+  - images/vnimal-02.jpeg
+  - images/vnimal-01.jpeg
 draft: false
 ---
 
-![[vnimal-02.png]]
-![[vnimal-02-2.png]]
-![[vnimal-02-3.png]]
+![[vnimal-02.jpeg]]
+![[vnimal-02-2.jpeg]]
+![[vnimal-02-3.jpeg]]
 ![[vnimal-03.jpg]]
-![[vnimal-03_2.png]]
-![[vnimal-01.png]]
-![[pendulum-01.jpg]]
-![[pendulum-02.jpg]]
-![[pendulum-03.jpg]]
-![[IMG_0488.jpg]]
-![[IMG_1275.png]]
-![[IMG_0521.jpg]]
-![[IMG_0528.jpg]]
+![[vnimal-03_2.jpeg]]
+![[vnimal-01.jpeg]]
+![[pendulum-01.jpeg]]
+![[pendulum-02.jpeg]]
+![[pendulum-03.jpeg]]
+![[IMG_0488.jpeg]]
+![[IMG_1275.jpeg]]
+![[IMG_0521.jpeg]]
+![[IMG_0528.jpeg]]
 ![[6.jpg]]
 ![[vnimvl_concept_01.jpg]]
 
