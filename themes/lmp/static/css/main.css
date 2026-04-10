@@ -982,8 +982,6 @@ a.gallery-page-cell--linked:hover::after {
     align-items: stretch;
     background: var(--paper);
     border-bottom: var(--rule-heavy);
-    border-left: var(--rule);
-    border-right: var(--rule);
     z-index: 99;
   }
 
@@ -992,10 +990,15 @@ a.gallery-page-cell--linked:hover::after {
     border-top: var(--rule);
     padding: 16px 20px;
     font-size: 13px;
+    color: var(--ink);
   }
 
   nav.nav-open .nav-links {
     display: flex;
+  }
+
+  .appearance-switcher {
+    border-left: var(--rule);
   }
 
   .nav-burger {
@@ -1186,8 +1189,8 @@ html[data-theme="dark"] {
   --ink-ghost:  #2a2826;
   --paper:      #0E0D0B;
   --paper-warm: #1c1a18;
-  --rule:       1px solid #2a2826;
-  --rule-heavy: 2px solid #f0ede6;
+  --rule:       1px solid #2e2c2a;
+  --rule-heavy: 2px solid #4a4845;
 }
 
 /* Logo visibility per theme */
