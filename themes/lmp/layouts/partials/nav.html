@@ -2,7 +2,7 @@
   <div class="nav-inner">
     <a href="{{ "/" | relURL }}" class="nav-name">
       <img src="{{ "images/lmp_logo.jpeg" | relURL }}"       alt="Lovely Mammoth" class="nav-logo logo-light">
-      <img src="{{ "images/lmp_logo_color.jpeg" | relURL }}" alt="Lovely Mammoth" class="nav-logo logo-dark">
+      <img src="{{ "images/lmp_logo_color.png" | relURL }}" alt="Lovely Mammoth" class="nav-logo logo-dark">
       Lovely Mammoth
     </a>
     {{ if .IsHome }}
@@ -11,15 +11,18 @@
       <a href="#research">Research</a>
       <a href="#experiments">Experiments</a>
       <a href="#about">About</a>
+      <button class="appearance-switcher" id="appearance-switcher" aria-label="Toggle dark mode">
+        <span class="icon-light">☽</span>
+        <span class="icon-dark">☀︎</span>
+      </button>
     </div>
-    {{ end }}
+    <button class="nav-burger" id="nav-burger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    {{ else }}
     <button class="appearance-switcher" id="appearance-switcher" aria-label="Toggle dark mode">
       <span class="icon-light">☽</span>
       <span class="icon-dark">☀︎</span>
-    </button>
-    {{ if .IsHome }}
-    <button class="nav-burger" id="nav-burger" aria-label="Toggle menu" aria-expanded="false">
-      <span></span><span></span><span></span>
     </button>
     {{ end }}
   </div>
