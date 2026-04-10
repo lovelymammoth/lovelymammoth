@@ -4,8 +4,8 @@ category: Installations
 layout: gallery
 weight: 3
 cover:
-  - images/P1070986 copy.jpg
-  - images/P1070989 copy.jpg
+  - images/P1070986.jpg
+  - images/P1070989.jpg
 draft: false
 ---
 ![[P1070986.jpg]]![[P1070989.jpg]]
