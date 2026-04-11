@@ -5,7 +5,7 @@
 {{ $work := where .Site.RegularPages "Section" "work" }}
 {{ $work = sort $work "Params.weight" }}
 
-{{ $categories := slice "AI" "Characters & Creatures" "VR Sculpture" "Installations" "Digital Sculpting"}}
+{{ $categories := slice "AI Workflows" "Characters & Creatures" "VR Sculpture" "Installations" "Digital Sculpting"}}
 {{ range $categories }}
 {{ $cat := . }}
 {{ $entries := where $work "Params.category" $cat }}

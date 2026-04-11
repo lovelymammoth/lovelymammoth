@@ -1,6 +1,6 @@
 ---
-title: AI
-category: AI
+title: AI Workflows
+category: AI Workflows
 layout: gallery
 weight: 1
 cover:
