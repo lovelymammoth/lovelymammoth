@@ -147,7 +147,7 @@ nav {
   display: block;
   padding: 14px 20px;
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 15px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-mid);
@@ -234,7 +234,7 @@ nav.nav-open .nav-burger span:nth-child(3) {
 
 .hero-eyebrow {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-mid);
@@ -285,7 +285,7 @@ nav.nav-open .nav-burger span:nth-child(3) {
 
 .hero-tag {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 15px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-faint);
@@ -311,7 +311,7 @@ nav.nav-open .nav-burger span:nth-child(3) {
   border-right: var(--rule);
   padding: 28px 18px;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-faint);
@@ -509,7 +509,7 @@ a.entry:hover img {
 
 .tag {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--ink-mid);
@@ -538,7 +538,7 @@ a.entry:hover img {
 
 .about-index span {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-faint);
@@ -582,7 +582,7 @@ a.entry:hover img {
 
 .contact-label {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-faint);
@@ -614,7 +614,7 @@ a.entry:hover img {
 
 .contact-link {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 15px;
   letter-spacing: 0.04em;
   color: var(--ink-mid);
   text-decoration: none;
@@ -632,7 +632,7 @@ a.entry:hover img {
 
 .contact-link::after {
   content: '↗';
-  font-size: 12px;
+  font-size: 15px;
 }
 
 .about-footer {
@@ -647,14 +647,14 @@ a.entry:hover img {
 
 .footer-copy {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 0.06em;
   color: var(--ink-faint);
 }
 
 .footer-loc {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 0.06em;
   color: var(--ink-faint);
 }
@@ -689,7 +689,7 @@ a.entry:hover img {
 
 .back-link {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 15px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-mid);
@@ -943,7 +943,7 @@ a.gallery-page-cell--linked:hover::after {
   transform: translateX(-50%);
   z-index: 2;
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 15px;
   letter-spacing: 0.08em;
   color: rgba(255,255,255,0.45);
 }
@@ -1034,7 +1034,7 @@ a.gallery-page-cell--linked:hover::after {
   }
 
   .hero-eyebrow {
-    font-size: 10px;
+    font-size: 13px;
   }
 
   .hero-title {
@@ -1212,13 +1212,13 @@ html[data-theme="dark"] .hero-logo-mark.logo-dark  { mix-blend-mode: screen; }
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 14px 16px;
+  padding: 17px 19px;
   background: none;
   border: none;
   border-left: var(--rule);
   cursor: pointer;
   color: var(--ink-mid);
-  font-size: 15px;
+  font-size: 18px;
   line-height: 1;
   transition: color 0.15s, background 0.15s;
 }
