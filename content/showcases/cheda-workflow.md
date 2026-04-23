@@ -11,7 +11,7 @@ tags:
   - Previz
 cover:
   - images/ai_wood_elf_cover.jpeg
-weight: 3
+weight: 99
 draft: false
 ---
 

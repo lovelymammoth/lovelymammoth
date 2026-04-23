@@ -10,7 +10,7 @@ tags:
   - Camera
 cover:
   - images/lct_cover.jpg
-weight: 2
+weight: 100
 draft: false
 github: https://github.com/lovelymammoth/layout-camera-toolkit
 ---
