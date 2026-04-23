@@ -1,7 +1,7 @@
 ---
 title: Layout Camera Toolkit for Maya
 description: A Maya tool that streamlines camera layout for layout artists — create, manage, and navigate production cameras with precision from a single panel.
-date: 2026-04-23
+date: 2025-04-15
 tags:
   - Maya
   - Python
