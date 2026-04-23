@@ -1691,6 +1691,9 @@ html[data-theme="dark"] .icon-dark  { display: inline; }
   text-decoration: none;
   transition: opacity 0.15s;
 }
+.section-header-link::after {
+  content: ' →';
+}
 .section-header-link:hover { opacity: 0.55; }
 
 .research-cover-img {
