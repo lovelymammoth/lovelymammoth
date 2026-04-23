@@ -655,11 +655,11 @@ a.entry:hover img {
   font-size: 11px;
 }
 
-.about-footer {
-  grid-column: span 12;
-  border-right: var(--rule);
+.site-footer {
   border-top: var(--rule);
-  padding: 12px 18px;
+  border-left: var(--rule);
+  border-right: var(--rule);
+  padding: 36px 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1141,10 +1141,8 @@ a.gallery-page-cell--linked:hover::after {
     padding: 28px 20px;
   }
 
-  .about-footer {
-    border-right: none;
-    border-left: var(--rule);
-    padding: 12px 16px;
+  .site-footer {
+    padding: 36px 16px;
   }
 
   /* Gallery page */
