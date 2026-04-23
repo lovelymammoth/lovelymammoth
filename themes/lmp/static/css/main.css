@@ -390,7 +390,7 @@ a.entry:hover .entry-num::after {
   min-width: 0;
   height: 100%;
   object-fit: cover;
-  object-position: top;
+  object-position: center;
   display: block;
   border-right: var(--rule);
   filter: saturate(0.92);
