@@ -1,0 +1,30 @@
+{{ define "main" }}
+<div class="gallery-page-header">
+  <a href="{{ "/showcases/" | relURL }}" class="back-link">← Showcases</a>
+  <span class="gallery-page-title">{{ .Title }}</span>
+</div>
+
+<div class="showcase-layout">
+  <div class="showcase-page">
+    <header class="showcase-header">
+      <h1 class="showcase-title">{{ .Title }}</h1>
+      <div class="showcase-meta">
+        <time class="showcase-date">{{ .Date.Format "January 2006" }}</time>
+        {{ range .Params.tags }}<span class="tag">{{ . }}</span>{{ end }}
+      </div>
+      {{ with .Params.github }}
+      <a href="{{ . }}" class="showcase-github-btn" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
+      {{ end }}
+    </header>
+    <div class="showcase-body">
+      {{ .Content | replaceRE `<p>!\[\[[^\]]*\]\]</p>` "" | safeHTML }}
+    </div>
+  </div>
+  {{ if .TableOfContents }}
+  <aside class="showcase-toc">
+    <div class="showcase-toc-label">Contents</div>
+    {{ .TableOfContents }}
+  </aside>
+  {{ end }}
+</div>
+{{ end }}

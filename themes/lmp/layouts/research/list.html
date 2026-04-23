@@ -1,0 +1,12 @@
+{{ define "main" }}
+<div class="gallery-page-header">
+  <a href="{{ "/#research" | relURL }}" class="back-link">← Home</a>
+  <span class="gallery-page-title">Research</span>
+</div>
+
+<div class="showcase-grid">
+  {{ range sort .Pages "Params.weight" }}
+  {{- partial "entry-showcase.html" . }}
+  {{ end }}
+</div>
+{{ end }}

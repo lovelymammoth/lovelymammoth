@@ -34,7 +34,7 @@ The order of names here is the order they appear on the homepage.
 
 ### Step 2 — Create the category page
 
-Create a new file in `content/work/`, for example `content/work/experience-design.md`:
+Create a new file in `content/projects/`, for example `content/projects/experience-design.md`:
 
 ```markdown
 ---
@@ -193,7 +193,7 @@ This supports **bold**, *italic*, and any standard Markdown.
 
 | Task | What to edit |
 | --- | --- |
-| Add a new work category | 1. `themes/lmp/layouts/index.html` — add name to `$categories` slice<br>2. New file in `content/work/` |
+| Add a new project category | 1. `themes/lmp/layouts/index.html` — add name to `$categories` slice<br>2. New file in `content/projects/` |
 | Reorder category sections | Edit the string order in the `$categories` slice in `themes/lmp/layouts/index.html` |
 | Rename a category | Update the string in `index.html` **and** the `category:` field in the `.md` file |
 | Change homepage cover images | Edit `cover:` list in frontmatter (use `images/filename.jpg`) |

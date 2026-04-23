@@ -1,0 +1,30 @@
+{{ define "main" }}
+<div class="gallery-page-header">
+  <a href="{{ "/research/" | relURL }}" class="back-link">← Research</a>
+  <span class="gallery-page-title">{{ .Title }}</span>
+</div>
+
+<div class="showcase-layout">
+  <div class="showcase-page">
+    <header class="showcase-header">
+      <h1 class="showcase-title">{{ .Title }}</h1>
+      <div class="showcase-meta">
+        <time class="showcase-date">{{ .Date.Format "January 2006" }}</time>
+        {{ range .Params.tags }}<span class="tag">{{ . }}</span>{{ end }}
+      </div>
+    </header>
+    {{ with .Params.cover }}
+    <img class="research-cover-img" src="{{ index . 0 | relURL }}" alt="">
+    {{ end }}
+    <div class="showcase-body">
+      {{ .Content | replaceRE `<p>!\[\[[^\]]*\]\]</p>` "" | safeHTML }}
+    </div>
+  </div>
+  {{ if .TableOfContents }}
+  <aside class="showcase-toc">
+    <div class="showcase-toc-label">Contents</div>
+    {{ .TableOfContents }}
+  </aside>
+  {{ end }}
+</div>
+{{ end }}

@@ -1,42 +1,83 @@
 {{ define "main" }}
 <div class="gallery-page-header">
-  {{ if eq .Section "experiments" }}
-  <a href="{{ "/#experiments" | relURL }}" class="back-link">← Experiments</a>
-  {{ else }}
-  <a href="{{ "/" | relURL }}" class="back-link">← Work</a>
-  {{ end }}
+  <a href="{{ "/" | relURL }}" class="back-link">← Home</a>
   <span class="gallery-page-title">{{ .Title }}</span>
 </div>
 
 {{/* .RawContent is already the body without frontmatter */}}
 {{ $body := .RawContent }}
 
-{{/* Match ![[image]] and ![[image|https://url]] wikilinks */}}
-{{ $imgRE := `!\[\[[^|\]\r\n]+\.(?:jpg|jpeg|png|gif|webp|JPG|JPEG|PNG|GIF|WEBP)(?:\|[^\]]*)?\]\]` }}
-{{ $images := findRE $imgRE $body }}
+{{/* Combined ordered regex: wikilink media OR iframe — preserves document order */}}
+{{ $combinedRE := `!\[\[[^|\]\r\n]+\.(?:jpg|jpeg|png|gif|webp|mp4|webm|mov|JPG|JPEG|PNG|GIF|WEBP|MP4|WEBM|MOV)(?:\|[^\]]*)?\]\]|<iframe[\s\S]*?</iframe>` }}
+{{ $items := findRE $combinedRE $body }}
 
-{{ if $images }}
+{{ if $items }}
 <div class="gallery-page-grid">
-  {{ range $images }}
-  {{ $filename := . | replaceRE `!\[\[([^|\]]+)\|?[^\]]*\]\]` "$1" }}
-  {{ $url     := . | replaceRE `!\[\[[^\]]+\|(https?://[^\]]+)\]\]` "$1" }}
+
+  {{ range $items }}
+  {{ $item := . }}
+
+  {{ if hasPrefix $item "![[" }}
+  {{/* ── Wikilink image or video ── */}}
+  {{ $filename := $item | replaceRE `!\[\[([^|\]]+)\|?[^\]]*\]\]` "$1" }}
+  {{ $url      := $item | replaceRE `!\[\[[^\]]+\|(https?://[^\]]+)\]\]` "$1" }}
+  {{ $isVideo  := findRE `\.(mp4|webm|mov|MP4|WEBM|MOV)$` $filename }}
   {{ if hasPrefix $url "http" }}
   <a href="{{ $url }}" target="_blank" rel="noopener noreferrer" class="gallery-page-cell gallery-page-cell--linked">
     <img src="{{ printf "images/%s" $filename | relURL }}" alt="" loading="lazy" draggable="false">
   </a>
+  {{ else if $isVideo }}
+  <div class="gallery-page-cell gallery-page-cell--video" data-video-src="{{ printf "images/%s" $filename | relURL }}">
+    <video src="{{ printf "images/%s" $filename | relURL }}" muted playsinline preload="metadata" loop></video>
+    <div class="gallery-cell-play"></div>
+  </div>
   {{ else }}
   <div class="gallery-page-cell">
     <img src="{{ printf "images/%s" $filename | relURL }}" alt="" loading="lazy" draggable="false">
   </div>
   {{ end }}
-  {{ end }}
-</div>
-{{ end }}
 
-{{/* Render anything else in the body (iframes, text) as embeds */}}
-{{ $remaining := $body | replaceRE $imgRE "" | strings.TrimSpace }}
-{{ if $remaining }}
-<div class="gallery-embeds">{{ $remaining | markdownify | safeHTML }}</div>
+  {{ else }}
+  {{/* ── Iframe embed ── */}}
+  {{ $embedSrcRE := `src="https://[^"]*(?:youtube(?:-nocookie)?\.com/embed|player\.vimeo\.com/video|sketchfab\.com/models)[^"]*"` }}
+  {{ $srcMatches := findRE $embedSrcRE $item }}
+  {{ if $srcMatches }}
+  {{ $src     := index $srcMatches 0 | replaceRE `src="([^"]+)"` "$1" }}
+  {{ $isYT    := findRE `youtube` $src }}
+  {{ $isVimeo := findRE `vimeo` $src }}
+  {{ if $isYT }}
+  {{ $ytID := $src | replaceRE `.*embed/([A-Za-z0-9_-]+).*` "$1" }}
+  <div class="gallery-page-cell gallery-page-cell--embed" data-embed-src="{{ $src }}">
+    <img src="https://img.youtube.com/vi/{{ $ytID }}/mqdefault.jpg" alt="" loading="lazy" draggable="false">
+    <div class="gallery-cell-play"></div>
+  </div>
+  {{ else if $isVimeo }}
+  {{ $vimeoID := $src | replaceRE `.*player\.vimeo\.com/video/([0-9]+).*` "$1" }}
+  <div class="gallery-page-cell gallery-page-cell--embed gallery-page-cell--nothumb" data-embed-src="{{ $src }}" data-vimeo-id="{{ $vimeoID }}">
+    <img class="gallery-embed-thumb" src="" alt="" draggable="false" style="display:none">
+    <div class="gallery-cell-play" style="display:none"></div>
+    <div class="gallery-cell-embed-poster gallery-cell-embed-poster--vimeo">
+      <div class="gallery-cell-embed-poster-play"></div>
+      <span class="gallery-cell-service-label">Vimeo</span>
+    </div>
+  </div>
+  {{ else }}
+  {{ $sfID := $src | replaceRE `.*sketchfab\.com/models/([A-Za-z0-9]+)/embed.*` "$1" }}
+  <div class="gallery-page-cell gallery-page-cell--embed gallery-page-cell--nothumb" data-embed-src="{{ $src }}" data-sketchfab-id="{{ $sfID }}">
+    <img class="gallery-embed-thumb" src="" alt="" draggable="false" style="display:none">
+    <div class="gallery-cell-play" style="display:none"></div>
+    <div class="gallery-cell-embed-poster">
+      <div class="gallery-cell-embed-poster-play"></div>
+      <span class="gallery-cell-service-label">3D — Sketchfab</span>
+    </div>
+  </div>
+  {{ end }}
+  {{ end }}
+  {{ end }}
+
+  {{ end }}
+
+</div>
 {{ end }}
 
 <!-- Lightbox -->
@@ -45,7 +86,14 @@
   <button class="lightbox-close" id="lightbox-close" aria-label="Close">&#x2715;</button>
   <button class="lightbox-prev"  id="lightbox-prev"  aria-label="Previous">&#x2039;</button>
   <div class="lightbox-img-wrap">
-    <img class="lightbox-img" id="lightbox-img" src="" alt="">
+    <img   class="lightbox-img"   id="lightbox-img"   src="" alt="">
+    <video class="lightbox-video" id="lightbox-video" controls playsinline></video>
+    <div class="lightbox-embed" id="lightbox-embed">
+      <iframe id="lightbox-iframe"
+        frameborder="0"
+        allow="autoplay; fullscreen; xr-spatial-tracking"
+        allowfullscreen></iframe>
+    </div>
   </div>
   <button class="lightbox-next"  id="lightbox-next"  aria-label="Next">&#x203A;</button>
   <div class="lightbox-counter"  id="lightbox-counter"></div>
@@ -58,47 +106,116 @@
   var grid = document.querySelector('.gallery-page-grid');
   if (!grid) return;
 
-  function spanCell(cell) {
+  function cellAspectHeight(cell) {
+    if (cell.classList.contains('gallery-page-cell--nothumb')) {
+      return Math.round(cell.offsetWidth * 9 / 16);
+    }
     var img = cell.querySelector('img');
-    if (!img) return;
-    var w = img.offsetWidth;
-    var h = img.naturalWidth > 0
-      ? Math.round((w / img.naturalWidth) * img.naturalHeight)
-      : cell.offsetHeight;
+    if (img) {
+      var w = cell.offsetWidth;
+      return img.naturalWidth > 0
+        ? Math.round((w / img.naturalWidth) * img.naturalHeight)
+        : cell.offsetHeight;
+    }
+    var vid = cell.querySelector('video');
+    if (vid) {
+      var w = cell.offsetWidth;
+      return vid.videoWidth > 0
+        ? Math.round((w / vid.videoWidth) * vid.videoHeight)
+        : Math.round(w * 9 / 16);
+    }
+    return cell.offsetHeight;
+  }
+
+  function spanCell(cell) {
+    var h = cellAspectHeight(cell);
     cell.style.gridRowEnd = 'span ' + Math.ceil((h + GAP) / (ROW_UNIT + GAP));
   }
 
   var cells = Array.from(grid.querySelectorAll('.gallery-page-cell'));
 
   cells.forEach(function (cell) {
-    var img = cell.querySelector('img');
-    if (!img) return;
-    if (img.complete && img.naturalHeight > 0) {
+    if (cell.classList.contains('gallery-page-cell--nothumb')) {
       spanCell(cell);
+      return;
+    }
+    var img = cell.querySelector('img');
+    var vid = cell.querySelector('video');
+    if (img) {
+      if (img.complete && img.naturalHeight > 0) spanCell(cell);
+      else img.addEventListener('load', function () { spanCell(cell); });
+    } else if (vid) {
+      spanCell(cell);
+      vid.addEventListener('loadedmetadata', function () { spanCell(cell); });
     } else {
-      img.addEventListener('load', function () { spanCell(cell); });
+      spanCell(cell);
     }
   });
 
   window.addEventListener('resize', function () { cells.forEach(spanCell); });
 })();
 
+/* ── Video preview: play on hover ── */
+(function () {
+  document.querySelectorAll('.gallery-page-cell--video').forEach(function (cell) {
+    var vid = cell.querySelector('video');
+    if (!vid) return;
+    cell.addEventListener('mouseenter', function () { vid.play(); });
+    cell.addEventListener('mouseleave', function () { vid.pause(); vid.currentTime = 0; });
+  });
+})();
+
 /* ── Lightbox (excludes linked cells) ── */
 (function () {
-  var cells   = Array.from(document.querySelectorAll('.gallery-page-cell:not(.gallery-page-cell--linked)'));
-  var imgs    = cells.map(function (c) { return c.querySelector('img'); });
-  var lb      = document.getElementById('lightbox');
-  var lbImg   = document.getElementById('lightbox-img');
-  var counter = document.getElementById('lightbox-counter');
-  var current = 0;
+  var cells    = Array.from(document.querySelectorAll('.gallery-page-cell:not(.gallery-page-cell--linked)'));
+  var lb       = document.getElementById('lightbox');
+  var lbImg    = document.getElementById('lightbox-img');
+  var lbVid    = document.getElementById('lightbox-video');
+  var lbEmbed  = document.getElementById('lightbox-embed');
+  var lbIframe = document.getElementById('lightbox-iframe');
+  var counter  = document.getElementById('lightbox-counter');
+  var current  = 0;
 
   if (!cells.length) return;
 
+  function clearAll() {
+    lbImg.style.display    = 'none';
+    lbVid.pause();
+    lbVid.removeAttribute('src');
+    lbVid.load();
+    lbVid.style.display    = 'none';
+    lbIframe.src           = '';
+    lbEmbed.style.display  = 'none';
+  }
+
+  function addAutoplay(src, isEmbed) {
+    if (!isEmbed) return src;
+    var sep = src.indexOf('?') >= 0 ? '&' : '?';
+    if (src.indexOf('youtube') >= 0 || src.indexOf('vimeo') >= 0) return src + sep + 'autoplay=1';
+    if (src.indexOf('sketchfab') >= 0) return src + sep + 'autostart=1';
+    return src;
+  }
+
   function show(i) {
     current = (i + cells.length) % cells.length;
-    lbImg.style.opacity = '0';
-    lbImg.src = imgs[current].src;
-    lbImg.onload = function () { lbImg.style.opacity = '1'; };
+    var cell = cells[current];
+    clearAll();
+
+    if (cell.classList.contains('gallery-page-cell--embed')) {
+      var src = addAutoplay(cell.getAttribute('data-embed-src'), true);
+      lbIframe.src = src;
+      lbEmbed.style.display = 'flex';
+    } else if (cell.classList.contains('gallery-page-cell--video')) {
+      lbVid.src = cell.getAttribute('data-video-src');
+      lbVid.style.display = 'block';
+      lbVid.play();
+    } else {
+      lbImg.style.display = 'block';
+      lbImg.style.opacity = '0';
+      lbImg.src = cell.querySelector('img').src;
+      lbImg.onload = function () { lbImg.style.opacity = '1'; };
+    }
+
     counter.textContent = (current + 1) + ' / ' + cells.length;
     lb.classList.add('lightbox--open');
     document.body.style.overflow = 'hidden';
@@ -107,6 +224,7 @@
   function close() {
     lb.classList.remove('lightbox--open');
     document.body.style.overflow = '';
+    clearAll();
   }
 
   cells.forEach(function (cell, i) {
@@ -126,6 +244,42 @@
     if (e.key === 'Escape')      close();
     if (e.key === 'ArrowLeft')   show(current - 1);
     if (e.key === 'ArrowRight')  show(current + 1);
+  });
+})();
+
+/* ── Embed thumbnails: Vimeo & Sketchfab via oEmbed ── */
+(function () {
+  function applyThumb(cell, thumbUrl) {
+    var img    = cell.querySelector('.gallery-embed-thumb');
+    var play   = cell.querySelector('.gallery-cell-play');
+    var poster = cell.querySelector('.gallery-cell-embed-poster');
+    if (!img) return;
+    img.addEventListener('load', function () {
+      cell.classList.remove('gallery-page-cell--nothumb');
+      img.style.display  = '';
+      if (play)   play.style.display   = '';
+      if (poster) poster.style.display = 'none';
+      window.dispatchEvent(new Event('resize'));
+    });
+    img.src = thumbUrl;
+  }
+
+  document.querySelectorAll('[data-vimeo-id]').forEach(function (cell) {
+    var id = cell.getAttribute('data-vimeo-id');
+    if (!id) return;
+    fetch('https://vimeo.com/api/oembed.json?url=https://vimeo.com/' + id)
+      .then(function (r) { return r.json(); })
+      .then(function (d) { if (d.thumbnail_url) applyThumb(cell, d.thumbnail_url); })
+      .catch(function () {});
+  });
+
+  document.querySelectorAll('[data-sketchfab-id]').forEach(function (cell) {
+    var id = cell.getAttribute('data-sketchfab-id');
+    if (!id) return;
+    fetch('https://sketchfab.com/oembed?url=https://sketchfab.com/models/' + id)
+      .then(function (r) { return r.json(); })
+      .then(function (d) { if (d.thumbnail_url) applyThumb(cell, d.thumbnail_url); })
+      .catch(function () {});
   });
 })();
 </script>

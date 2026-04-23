@@ -1,0 +1,29 @@
+<div class="showcase-card">
+  <a href="{{ .RelPermalink }}" class="showcase-card-inner">
+    <div class="showcase-card-image-wrap">
+      {{ with .Params.cover }}
+      <img class="showcase-card-image" src="{{ index . 0 | relURL }}" alt="">
+      {{ else }}
+      <div class="showcase-card-placeholder"></div>
+      {{ end }}
+    </div>
+    <div class="showcase-card-body">
+      <div class="showcase-card-title">{{ .Title }}</div>
+      <p class="showcase-card-desc">{{ .Params.description }}</p>
+      {{ with .Params.tags }}
+      <div class="tag-row">
+        {{ range . }}<span class="tag">{{ . }}</span>{{ end }}
+      </div>
+      {{ end }}
+      <div class="showcase-card-meta">
+        {{ if not .Date.IsZero }}<span>{{ .Date.Format "Jan 2006" }}</span>{{ end }}
+        {{ if gt .WordCount 0 }}<span>{{ .WordCount }} words</span>{{ end }}
+      </div>
+    </div>
+  </a>
+  {{ with .Params.github }}
+  <div class="showcase-card-footer">
+    <a href="{{ . }}" class="showcase-card-github" target="_blank" rel="noopener noreferrer">GitHub →</a>
+  </div>
+  {{ end }}
+</div>

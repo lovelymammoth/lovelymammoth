@@ -1,8 +1,8 @@
 {{ define "main" }}
 {{- partial "hero.html" . }}
 
-<!-- WORK SECTION -->
-{{ $work := where .Site.RegularPages "Section" "work" }}
+<!-- PROJECTS SECTION -->
+{{ $work := where .Site.RegularPages "Section" "projects" }}
 {{ $work = sort $work "Params.weight" }}
 
 {{ $categories := slice "AI Workflows" "Characters & Creatures" "VR Sculpture" "Installations" "Digital Sculpting"}}
@@ -11,24 +11,17 @@
 {{ $entries := where $work "Params.category" $cat }}
 {{ if $entries }}
 <div class="section-header" id="{{ $cat | urlize }}">
-  <div class="section-header-label">Work</div>
-  <div class="section-header-title">{{ $cat }}</div>
+  <div class="section-header-label">Projects</div>
+  <div class="section-header-title">
+    {{ with index $entries 0 }}
+    <a href="{{ .RelPermalink }}" class="section-header-link">{{ $cat }}</a>
+    {{ else }}{{ $cat }}{{ end }}
+  </div>
 </div>
 {{ range $entries }}
 {{- partial "entry-strip.html" . }}
 {{ end }}
 {{ end }}
-{{ end }}
-
-<!-- RESEARCH SECTION -->
-{{ $research := where .Site.RegularPages "Section" "research" }}
-{{ $research = sort $research "Params.weight" }}
-<div class="section-header section-header--break" id="research">
-  <div class="section-header-label">Research</div>
-  <div class="section-header-title">PhD — Player-avatar relationships in social VR</div>
-</div>
-{{ range $research }}
-{{- partial "entry-text.html" . }}
 {{ end }}
 
 <!-- EXPERIMENTS SECTION -->
@@ -37,11 +30,57 @@
 {{ if $experiments }}
 <div class="section-header section-header--break" id="experiments">
   <div class="section-header-label">Experiments</div>
-  <div class="section-header-title">Works in progress — experiments &amp; tests</div>
+  <div class="section-header-title">
+    {{ with index $experiments 0 }}
+    <a href="{{ .RelPermalink }}" class="section-header-link">Works in progress — experiments &amp; tests</a>
+    {{ end }}
+  </div>
 </div>
 {{ range $experiments }}
 {{- partial "entry-strip.html" . }}
 {{ end }}
+{{ end }}
+
+<!-- SHOWCASE SECTION -->
+{{ $showcases := where .Site.RegularPages "Section" "showcases" }}
+{{ $showcases = sort $showcases "Date" "desc" }}
+{{ $showcases = first 3 $showcases }}
+{{ if $showcases }}
+<div class="section-header section-header--break" id="showcases">
+  <div class="section-header-label">Showcase</div>
+  <div class="section-header-title">
+    <a href="{{ "/showcases/" | relURL }}" class="section-header-link">Tools &amp; workflows</a>
+  </div>
+</div>
+<div class="showcase-section-wrap">
+  <a href="{{ "/showcases/" | relURL }}" class="showcase-section-index"></a>
+  <div class="showcase-grid">
+  {{ range $showcases }}
+  {{- partial "entry-showcase.html" . }}
+  {{ end }}
+  </div>
+</div>
+{{ end }}
+
+<!-- RESEARCH SECTION -->
+{{ $research := where .Site.RegularPages "Section" "research" }}
+{{ $research = sort $research "Date" "desc" }}
+{{ $research = first 3 $research }}
+{{ if $research }}
+<div class="section-header section-header--break" id="research">
+  <div class="section-header-label">Research</div>
+  <div class="section-header-title">
+    <a href="{{ "/research/" | relURL }}" class="section-header-link">PhD — Player-avatar relationships in social VR</a>
+  </div>
+</div>
+<div class="showcase-section-wrap">
+  <a href="{{ "/research/" | relURL }}" class="showcase-section-index"></a>
+  <div class="showcase-grid">
+  {{ range $research }}
+  {{- partial "entry-showcase.html" . }}
+  {{ end }}
+  </div>
+</div>
 {{ end }}
 
 {{- partial "about.html" . }}

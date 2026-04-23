@@ -1,11 +1,24 @@
 ---
 title: ""
-section: research
-entrynum: R2
-status: In progress
+description: ""
+date: 2026-04-22
 tags: []
-weight: 2
+cover:
+  - images/filename.jpg
+weight: 1
 draft: true
 ---
 
-Description of the research here.
+## Overview
+
+Brief framing of the research area. What is being studied and why it matters.
+
+## Key Questions
+
+- Question one?
+- Question two?
+- Question three?
+
+## Status
+
+Current phase — e.g., literature review, participant recruitment, data collection, analysis, writing.
