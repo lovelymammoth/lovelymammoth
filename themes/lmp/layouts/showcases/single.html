@@ -17,7 +17,7 @@
       {{ end }}
     </header>
     <div class="showcase-body">
-      {{ .Content | replaceRE `<p>!\[\[[^\]]*\]\]</p>` "" | safeHTML }}
+      {{ .Content | replaceRE `<p>!\[\[([^|\]]+)[^\]]*\]\]</p>` `<img src="/images/$1" alt="" class="showcase-inline-img">` | safeHTML }}
     </div>
   </div>
   {{ if .TableOfContents }}

@@ -1702,6 +1702,12 @@ html[data-theme="dark"] .icon-dark  { display: inline; }
   filter: saturate(0.92);
 }
 
+.showcase-inline-img {
+  width: 100%;
+  display: block;
+  margin: 0 0 24px;
+}
+
 @media (max-width: 1024px) {
   .showcase-section-index {
     display: none;
