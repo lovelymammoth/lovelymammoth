@@ -25,7 +25,7 @@ When developing characters and environments in parallel, creative decisions in o
 
 The workflow runs in two parallel tracks — **Character** and **Environment** — that converge at the end into a First Frame and action sequence.
 
-![[cheda-workflow.jpeg]]
+![CHEDA Workflow](/images/cheda-workflow.jpeg)
 
 [Try the workflow →](https://app.weavy.ai/flow/nOjOVj6hrRsuAs1UWTr2sY)
 
