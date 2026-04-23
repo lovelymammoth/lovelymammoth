@@ -11,7 +11,6 @@ cover:
 weight: 2
 draft: true
 ---
-
 ## Overview
 
 The Proteus Effect describes the tendency of users to behave in ways consistent with the appearance of their avatar. In social VR, where avatar customisation is near-unlimited, this effect takes on new dimensions — users report shifts in confidence, social behaviour, and even physical self-perception that persist beyond the virtual environment.

@@ -4,9 +4,9 @@ category: Digital Sculpting
 layout: gallery
 weight: 4
 cover:
-  - images/thinker-01.jpeg
-  - images/gandalf-01.jpeg
-  - images/wisdom-tooth.jpg
+  - images/cover_thinker-02.jpeg
+  - images/cover_gandalf-01.jpeg
+  - images/cover_wisdom-tooth.jpeg
 draft: false
 ---
 

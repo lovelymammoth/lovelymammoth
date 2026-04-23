@@ -4,9 +4,9 @@ category: Characters & Creatures
 layout: gallery
 weight: 1
 cover:
-  - images/nakia-03.jpeg
-  - images/incarnation-03.jpeg
-  - images/scarecrow-01.jpeg
+  - images/cover_nakia-03.jpeg
+  - images/cover_incarnation-03.jpeg
+  - images/cover_scarecrow-01.jpeg
 draft: false
 ---
 

@@ -10,7 +10,6 @@ tags:
 weight: 4
 draft: true
 ---
-
 ## Overview
 
 This strand of the research focuses on how the quality of avatar embodiment — inverse kinematics quality, facial expression mapping, hand tracking fidelity — affects perceived social presence between participants in shared VR environments.

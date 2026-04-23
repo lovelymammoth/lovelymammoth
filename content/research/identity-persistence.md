@@ -10,7 +10,6 @@ tags:
 weight: 5
 draft: true
 ---
-
 ## Overview
 
 As VR platforms proliferate, users increasingly maintain avatars across multiple environments — VRChat, Resonite, Horizon Worlds, and others. This research thread examines whether and how a persistent avatar identity transfers across these spaces.

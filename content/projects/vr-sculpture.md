@@ -4,9 +4,9 @@ category: VR Sculpture
 layout: gallery
 weight: 2
 cover:
-  - images/vnimal-03.jpg
-  - images/vnimal-02.jpeg
-  - images/vnimal-01.jpeg
+  - images/cover_vnimal-03.jpeg
+  - images/cover_vnimal-02.jpeg
+  - images/cover_vnimal-01.jpeg
 draft: false
 ---
 
