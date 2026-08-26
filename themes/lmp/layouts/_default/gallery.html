@@ -24,7 +24,11 @@
   {{ $isVideo  := findRE `\.(mp4|webm|mov|MP4|WEBM|MOV)$` $filename }}
   {{ if hasPrefix $url "http" }}
   <a href="{{ $url }}" target="_blank" rel="noopener noreferrer" class="gallery-page-cell gallery-page-cell--linked">
+    {{ if $isVideo }}
+    <video src="{{ printf "images/%s" $filename | relURL }}" muted autoplay loop playsinline preload="metadata"></video>
+    {{ else }}
     <img src="{{ printf "images/%s" $filename | relURL }}" alt="" loading="lazy" draggable="false">
+    {{ end }}
   </a>
   {{ else if $isVideo }}
   <div class="gallery-page-cell gallery-page-cell--video" data-video-src="{{ printf "images/%s" $filename | relURL }}">

@@ -3,10 +3,15 @@
   <div class="entry-covers">
     {{ if .Params.cover }}
       {{ range .Params.cover }}
-        <img src="{{ . | relURL }}" alt="">
+        {{ $ext := path.Ext . }}
+        {{ if in (slice ".mp4" ".webm") $ext }}
+        <video class="entry-cover-video" data-src="{{ . | relURL }}" muted loop playsinline preload="none"></video>
+        {{ else }}
+        <img src="{{ . | relURL }}" alt="" loading="lazy">
+        {{ end }}
       {{ end }}
     {{ else if .Params.image }}
-      <img src="{{ .Params.image | relURL }}" alt="{{ $.Title }}">
+      <img src="{{ .Params.image | relURL }}" alt="{{ $.Title }}" loading="lazy">
     {{ else }}
       <div class="entry-cover-placeholder"></div>
     {{ end }}

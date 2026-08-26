@@ -2,7 +2,7 @@
   <a href="{{ .RelPermalink }}" class="showcase-card-inner">
     <div class="showcase-card-image-wrap">
       {{ with .Params.cover }}
-      <img class="showcase-card-image" src="{{ index . 0 | relURL }}" alt="">
+      <img class="showcase-card-image" src="{{ index . 0 | relURL }}" alt="" loading="lazy">
       {{ else }}
       <div class="showcase-card-placeholder"></div>
       {{ end }}
